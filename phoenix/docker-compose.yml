@@ -1,0 +1,27 @@
+version: "3.7"
+
+volumes:
+  pg-data:
+
+services:
+  app:
+    build:
+      context: .
+    ports:
+      - "4000:4000"
+    volumes:
+      - .:/app
+    depends_on:
+      - postgres
+    command:
+      mix phx.server
+
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      PGDATA: /var/lib/postgresql/data
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+
