@@ -94,7 +94,6 @@ echo "$DOCKERFILE" > Dockerfile
 echo "$DOCKER_COMPOSE" > docker-compose.yml
 touch Gemfile.lock
 
-docker-compose build
 docker-compose run --no-deps --rm web bundle exec rails new . --force --database=postgresql
 docker-compose run --no-deps --rm web echo "$DATABASE_YML" > config/database.yml
 docker-compose run --rm web bundle exec rails db:create
