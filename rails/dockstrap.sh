@@ -28,7 +28,7 @@ ENTRYPOINT=$(cat <<HEREDOC
 #!/bin/bash
 set -e
 rm -f /myapp/tmp/pids/server.pid
-exec "$@"
+exec "\$@"
 HEREDOC
 )
 
@@ -47,7 +47,7 @@ RUN bundle install
 COPY . /myapp
 
 # Add a script to be executed every time the container starts.
-COPY entrypoint.sh /usr/bin/
+COPY ./entrypoint.sh /usr/bin/
 RUN chmod +x /usr/bin/entrypoint.sh
 ENTRYPOINT ["entrypoint.sh"]
 EXPOSE 3000
