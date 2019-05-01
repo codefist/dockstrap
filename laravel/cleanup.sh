@@ -1,0 +1,1 @@
+rm -rf Dockerfile docker-compose.yml app bootstrap config database public resources routes storage tests vendor artisan composer.json composer.lock package.json phpunit.xml server.php webpack.mix.js yarn.lock node_modules package-lock.json .config .editorconfig .env .env.example .gitignore .gitattributes .npm .styleci.yml .bash_history
