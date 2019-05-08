@@ -10,7 +10,7 @@ RUN mix local.hex --force
 RUN mix local.rebar --force
 
 # Install the Phoenix framework
-RUN mix archive.install hex phx_new 1.4.4 --force
+RUN mix archive.install hex phx_new 1.4.5 --force
 
 # Prep node to install via apt
 RUN curl -sL https://deb.nodesource.com/setup_12.x  | bash -
