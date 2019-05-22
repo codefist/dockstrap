@@ -1,6 +1,10 @@
 # Dockstrap
+Bootstrap your new project rapidly with Docker
 
-Create a new directory and run one of the following scripts from within:
+### usage:
+- Create a new directory
+- cd into it
+- paste in and run one of the below options:
 
 **Phoenix**
 `bash <(curl -s https://raw.githubusercontent.com/codefist/dockstrap/master/phoenix/dockstrap.sh)`
@@ -18,6 +22,7 @@ Create a new directory and run one of the following scripts from within:
 `bash <(curl -s https://raw.githubusercontent.com/codefist/dockstrap/master/elixir_mix/dockstrap.sh)`
 
 You're left with a fresh project with a basic Dockerfile and docker-compose.yml
+
 Go forth and code
 
 (∩ ͡° ͜ʖ ͡°)⊃━☆ﾟ. * ･ ｡ﾟ,
