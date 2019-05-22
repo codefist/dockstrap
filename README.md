@@ -14,7 +14,10 @@ Create a new directory and run one of the following scripts from within:
 **Django**
 `bash <(curl -s https://raw.githubusercontent.com/codefist/dockstrap/master/django/dockstrap.sh)`
 
+**Elixir Mix**
+`bash <(curl -s https://raw.githubusercontent.com/codefist/dockstrap/master/elixir_mix/dockstrap.sh)`
 
-You're left with a fresh app with a basic Dockerfile and docker-compose.yml
+You're left with a fresh project with a basic Dockerfile and docker-compose.yml
+Go forth and code
 
-The server will start automatically.  Later, just use `docker-compose up` like usual
+(∩ ͡° ͜ʖ ͡°)⊃━☆ﾟ. * ･ ｡ﾟ,
