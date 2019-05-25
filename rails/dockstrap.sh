@@ -38,10 +38,12 @@ RUN apt-get update -qq && apt-get install -y nodejs postgresql-client
 RUN mkdir /myapp
 WORKDIR /myapp
 COPY Gemfile /myapp/Gemfile
-COPY Gemfile.lock /myapp/Gemfile.lock
 
 ENV BUNDLE_PATH /bundle
 ENV BUNDLE_JOBS 2
+ENV PATH $PATH:/bundle/bin
+
+RUN bundle config --global path /bundle
 
 RUN bundle install
 COPY . /myapp
@@ -67,7 +69,7 @@ volumes:
 services:
   web:
     build: .
-    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
     volumes:
       - .:/myapp
       - bundle:/bundle
@@ -94,7 +96,7 @@ echo "$DOCKERFILE" > Dockerfile
 echo "$DOCKER_COMPOSE" > docker-compose.yml
 touch Gemfile.lock
 
-docker-compose run --no-deps --rm web bundle exec rails new . --force --database=postgresql
+docker-compose run --rm web bundle exec rails new . --force --database=postgresql
 docker-compose run --rm web echo "$DATABASE_YML" > config/database.yml
 docker-compose run --rm web bundle exec rails db:create
 docker-compose up
