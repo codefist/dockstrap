@@ -21,6 +21,9 @@ Bootstrap your new project rapidly with Docker
 **Elixir Mix**
 `bash <(curl -s https://raw.githubusercontent.com/codefist/dockstrap/master/elixir_mix/dockstrap.sh)`
 
+**PHP Slim**
+`bash <(curl -s https://raw.githubusercontent.com/codefist/dockstrap/master/php_slim/dockstrap.sh)`
+
 You're left with a fresh project with a basic Dockerfile and docker-compose.yml
 
 Go forth and code
