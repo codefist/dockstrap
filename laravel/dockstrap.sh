@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
 DOCKERFILE=$(cat <<HEREDOC
-FROM php:7.3.3
+FROM php:latest
 
-RUN apt-get update && apt-get install -y libpng-dev libmcrypt-dev mysql-client imagemagick libicu-dev zip libzip-dev
+RUN apt-get update && apt-get install -y --no-install-recommends libpng-dev libmcrypt-dev mysql-client imagemagick libicu-dev unzip libzip-dev
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
@@ -12,6 +12,17 @@ ENV PATH="/root/.composer/vendor/bin:\$PATH"
 RUN docker-php-ext-install exif zip gd pdo_mysql intl bcmath
 
 RUN composer global require laravel/installer
+HEREDOC
+)
+
+POSTGRES_CONFIG=$(cat <<HEREDOC
+
+DB_CONNECTION=pgsql
+DB_HOST=postgres
+DB_PORT=5432
+DB_DATABASE=pg
+DB_USERNAME=pg
+DB_PASSWORD=pg
 HEREDOC
 )
 
@@ -25,20 +36,20 @@ services:
   node:
     image: node
     volumes:
-      - .:/root
+      - .:/code
     command:
       npm run watch
-    working_dir: /root
+    working_dir: /code
   app:
     build:
       context: .
     volumes:
-      - .:/var/www
-    working_dir: /var/www
+      - .:/app
+    working_dir: /app
     depends_on:
       - postgres
     ports:
-      - "9000:9000"
+      - 9000:9000
     command:
       php artisan serve --host=0.0.0.0 --port=9000
     # env_file:
@@ -46,8 +57,9 @@ services:
   postgres:
     image: postgres
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: pg
+      POSTGRES_DB: pg
+      POSTGRES_PASSWORD: pg
       PGDATA: /var/lib/postgresql/data
     volumes:
       - pg-data:/var/lib/postgresql/data
@@ -58,7 +70,11 @@ HEREDOC
 echo "$DOCKERFILE" > Dockerfile
 echo "$DOCKER_COMPOSE" > docker-compose.yml
 
+docker-compose build
 docker-compose run --rm --no-deps app laravel new --force .
+docker-compose run --rm --no-deps app sed '/DB_CONNECTION=mysql/,/DB_PASSWORD=/d' .env > .newenv
+echo "$POSTGRES_CONFIG" >> .newenv
+mv .newenv .env
 docker-compose run --rm node npm install
 
 docker-compose up
