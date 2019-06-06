@@ -10,7 +10,7 @@ RUN mix local.hex --force
 RUN mix local.rebar --force
 
 # Install the Phoenix framework
-RUN mix archive.install hex phx_new 1.4.5 --force
+RUN mix archive.install hex phx_new 1.4.6 --force
 
 # Prep node to install via apt
 RUN curl -sL https://deb.nodesource.com/setup_12.x  | bash -
@@ -63,9 +63,11 @@ echo Enter the app name:
 echo Phoenix uses a convention of
 echo lower-case letters with underscores
 
-read -p 'App Name (ex. hello_world): ' APPNAME
+read -p 'App Name (ex. hello_world): [app] ' APPNAME
 
-read -p 'use --no-ecto [yN] ' NO_ECTO
+APPNAME=$([[ $APPNAME == '' ]] && echo 'app' || echo $APPNAME)
+
+read -p 'use --no-ecto option? [yN] ' NO_ECTO
 
 if [[ $NO_ECTO =~ [yY](es)* ]]; then
   echo 'using --no-ecto option'
@@ -81,7 +83,7 @@ if [ $RESULT -eq 0 ]; then
 
   docker-compose run --rm --no-deps app mix deps.get
   docker-compose run --rm --no-deps app sed -i 's/localhost/postgres/g' config/dev.exs
-  docker-compose run --rm --no-deps -w /app/assets app npm install && node node_modules/webpack/bin/webpack.js --mode development
+  docker-compose run --rm --no-deps -w /app/assets app npm install
 
 if [[ $NO_ECTO =~ [yY](es)* ]]; then
   echo ""
