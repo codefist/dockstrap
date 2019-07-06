@@ -54,3 +54,4 @@ echo "$DOCKER_COMPOSE" > docker-compose.yml
 docker-compose build
 docker-compose run --rm --no-deps app composer create-project --prefer-dist laravel/lumen newapp && mv newapp/* newapp/.* ./
 docker-compose run --rm --no-deps app rm -rf newapp
+docker-compose run --rm --no-deps app ln -s vendor/bin/phpunit
