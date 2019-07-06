@@ -39,19 +39,55 @@ services:
   mysql:
     image: mysql:5.7
     environment:
-      # Lumen uses homestead as default, so, why not...
-      MYSQL_DATABASE: homestead
+      MYSQL_DATABASE: app
       MYSQL_ROOT_PASSWORD: secret
     volumes:
       - mysql-data:/var/lib/mysql
 HEREDOC
 )
 
+MAKEFILE=$(cat <<HEREDOC
+test:
+	docker-compose run --rm app ./phpunit
+HEREDOC
+)
+
+DOTENV=$(cat <<HEREDOC
+APP_NAME=Lumen
+APP_ENV=local
+APP_KEY=
+APP_DEBUG=true
+APP_URL=http://localhost
+APP_TIMEZONE=UTC
+
+LOG_CHANNEL=stack
+LOG_SLACK_WEBHOOK_URL=
+
+DB_CONNECTION=mysql
+DB_HOST=mysql
+DB_PORT=3306
+DB_DATABASE=app
+DB_USERNAME=root
+DB_PASSWORD=secret
+
+CACHE_DRIVER=file
+QUEUE_CONNECTION=sync
+HEREDOC
+)
+
 # write files
 echo "$DOCKERFILE" > Dockerfile
 echo "$DOCKER_COMPOSE" > docker-compose.yml
+echo "$MAKEFILE" > makefile
+echo "$DOTENV" > dotenv
 
 docker-compose build
 docker-compose run --rm --no-deps app composer create-project --prefer-dist laravel/lumen newapp && mv newapp/* newapp/.* ./
 docker-compose run --rm --no-deps app rm -rf newapp
 docker-compose run --rm --no-deps app ln -s vendor/bin/phpunit
+docker-compose run --rm --no-deps app mv dotenv .env
+
+echo "####################################"
+echo "## All done - running 'make test' ##"
+echo "####################################"
+make test
