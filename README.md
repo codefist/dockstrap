@@ -15,6 +15,9 @@ Bootstrap your new project rapidly with Docker
 **Laravel**
 `bash <(curl -s https://raw.githubusercontent.com/codefist/dockstrap/master/laravel/dockstrap.sh)`
 
+**Laravel Lumin**
+`bash <(curl -s https://raw.githubusercontent.com/codefist/dockstrap/master/lumen/dockstrap.sh)`
+
 **Django**
 `bash <(curl -s https://raw.githubusercontent.com/codefist/dockstrap/master/django/dockstrap.sh)`
 
