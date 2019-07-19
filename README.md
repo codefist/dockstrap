@@ -27,6 +27,9 @@ Bootstrap your new project rapidly with Docker
 **PHP Slim**
 `bash <(curl -s https://raw.githubusercontent.com/codefist/dockstrap/master/php_slim/dockstrap.sh)`
 
+**create-react-app**
+`bash <(curl -s https://raw.githubusercontent.com/codefist/dockstrap/master/create-react-app/dockstrap.sh)`
+
 You're left with a fresh project with a basic Dockerfile and docker-compose.yml
 
 Go forth and code
